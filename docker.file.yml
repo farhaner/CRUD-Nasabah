@@ -1,16 +1,11 @@
-version: '3'
-services:
-  # Layanan untuk aplikasi Java
-  aplikasi:
-    build: .
-    ports:
-      - "5432:5432"
-    depends_on:
-      - database
-  # Layanan untuk PostgreSQL
-  database:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: postgres-mybank
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres123
+# Menggunakan base image yang sesuai untuk aplikasi Java
+FROM openjdk:17-jre-slim
+  
+  # Menyalin file JAR dari host ke dalam container
+COPY target/crud-nasabah.jar /app/crud-nasabah-app.jar
+  
+  # Menentukan direktori kerja di dalam container
+WORKDIR /app
+  
+  # Menjalankan aplikasi Java saat container dimulai
+CMD ["java", "-jar", "crud-nasabah.jar"]
