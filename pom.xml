@@ -64,6 +64,15 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+<!--					<services>-->
+<!--						<service>-->
+<!--							<name>web</name>-->
+<!--							<image>nginx:latest</image>-->
+<!--							<ports>-->
+<!--								<port>8080:80</port>-->
+<!--							</ports>-->
+<!--						</service>-->
+<!--					</services>-->
 				</configuration>
 			</plugin>
 		</plugins>
