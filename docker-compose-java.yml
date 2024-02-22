@@ -1,29 +1,60 @@
-version: '3.8'
+version: "3.8"
+
 services:
   app:
-    image: crud_nasabah:latest
+    image: bank_farhan
+    network_mode: host
     build:
       context: .
-    container_name: java_springboot
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_IP=localhost
+      - DB_PORT=5432
+      - DB_DATABASE=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgres
     depends_on:
-      - db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres123
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres123
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+      - postgres
 
+  postgres:
+    image: postgres:latest
+    network_mode: host
     ports:
-      - '5433:5432'
-
-  db:
-    image: postgres
-    container_name: java_spirngboot
+      - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres123
-      - POSTGRES_DB=postgres
-    ports:
-      - 5432:5432
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./initsql:/docker-entrypoint-initdb.d
+
+#version: '3.8'
+#name :
+#services:
+#  java_springboot:
+#    image: crud_nasabah:latest
+#    build:
+#      context: .
+#    depends_on:
+#      - postgres_db
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres123
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_db:5432/postgres
+#      - SPRING_DATASOURCE_USERNAME=postgres
+#      - SPRING_DATASOURCE_PASSWORD=postgres123
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+#
+#    ports:
+#      - '8080:8080'
+
+#  postgres_db:
+  #    image: postgres
+  #    environment:
+  #      - POSTGRES_USER=postgres
+  #      - POSTGRES_PASSWORD=postgres123
+  #      - POSTGRES_DB=postgres
+  #    ports:
+  #      - '5432:5432'
+
+
