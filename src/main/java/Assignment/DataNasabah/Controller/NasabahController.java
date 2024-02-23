@@ -30,7 +30,7 @@ public class NasabahController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getNasabahById(@PathVariable NasabahRequest id){
+    public ResponseEntity<?> getNasabahById(@PathVariable String id){
         NasabahEntity nasabahResponse = nasabahService.getNasabahById(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
@@ -40,9 +40,9 @@ public class NasabahController {
                         .build());
     }
 
-    @GetMapping(value = "/{nomerKtp}")
-    public ResponseEntity<?> getNasabahByKtp(@PathVariable NasabahRequest nomerKtp){
-        NasabahResponse nasabahResponse = nasabahService.findByNomerKtp(nomerKtp);
+    @GetMapping(value = "/V1/{nomerKtp}")
+    public ResponseEntity<?> getNasabahByKtp(@PathVariable String nomerKtp){
+        NasabahEntity nasabahResponse = nasabahService.findByNomerKtp(nomerKtp);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .data(nasabahResponse)

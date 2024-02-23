@@ -47,15 +47,15 @@ public class NasabahImplementation implements NasabahService {
     }
 
     @Override
-    public NasabahEntity getNasabahById(NasabahRequest request) {
-        return nasabahRepository.findById(String.valueOf(request)).get();
+    public NasabahEntity getNasabahById(String request) {
+        NasabahEntity nasabahEntities = nasabahRepository.findById(request).get();
+        return nasabahEntities;
     }
 
     @Override
-    public NasabahResponse findByNomerKtp(NasabahRequest request) {
-        return nasabahRepository.findByNomerKtp(String.valueOf(request));
+    public NasabahEntity findByNomerKtp(String request) {
+        return nasabahRepository.findByNomerKtp(request);
     }
-
     @Override
     public NasabahResponse updateNasabah(NasabahRequest request) {
         NasabahEntity nasabah = nasabahRepository.findById(request.getId()).orElseThrow(
@@ -67,6 +67,7 @@ public class NasabahImplementation implements NasabahService {
             nasabah.setTempatLahir(request.getTempatLahir());
             nasabah.setTanggalLahir(request.getTanggalLahir());
             nasabah.setNomerKtp(String.valueOf(request.getNomerKtp()));
+//            nasabah.setno
             nasabah.setNomerHanphone(request.getNomerHanphone());
             nasabahRepository.saveAndFlush(nasabah);
 

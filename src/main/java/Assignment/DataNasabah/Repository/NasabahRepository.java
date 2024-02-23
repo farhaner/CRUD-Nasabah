@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
     public interface NasabahRepository extends JpaRepository<NasabahEntity, String> {
-        NasabahResponse findByNomerKtp(String nomerKtp);
+        NasabahEntity findByNomerKtp(String nomerKtp);
     }
