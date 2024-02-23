@@ -37,6 +37,4 @@ public class NasabahEntity {
 
     @Column(name = "no_hp")
     private String nomerHanphone;
-
-
 }

@@ -31,7 +31,7 @@ public class NasabahController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getNasabahById(@PathVariable NasabahRequest id){
-        NasabahResponse nasabahResponse = nasabahService.getNasabahById(id);
+        NasabahEntity nasabahResponse = nasabahService.getNasabahById(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .data(nasabahResponse)
@@ -52,7 +52,7 @@ public class NasabahController {
     }
     @GetMapping(value = "/list")
     public ResponseEntity<?> getAllNasabah(){
-        List<NasabahEntity> nasabahResponse = nasabahService.getAllNasabah();
+        List<NasabahResponse> nasabahResponse = nasabahService.getAllNasabah();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .data(nasabahResponse)
@@ -78,7 +78,6 @@ public class NasabahController {
         NasabahResponse nasabah = new NasabahResponse();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
-                        .data(String.valueOf(nasabah))
                         .message("Nasabah Successfully Deleted")
                         .statusCode(HttpStatus.OK.value())
                         .build());

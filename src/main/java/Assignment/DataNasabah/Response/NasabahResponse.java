@@ -10,6 +10,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class NasabahResponse {
 
+    private String id;
     private String namaLengkap;
     private String alamat;
     private String tempatLahir;

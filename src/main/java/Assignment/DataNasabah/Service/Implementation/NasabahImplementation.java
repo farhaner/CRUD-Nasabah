@@ -1,21 +1,20 @@
 package Assignment.DataNasabah.Service.Implementation;
 
 import Assignment.DataNasabah.Entity.NasabahEntity;
+import Assignment.DataNasabah.Repository.NasabahRepository;
 import Assignment.DataNasabah.Request.NasabahRequest;
 import Assignment.DataNasabah.Response.NasabahResponse;
-import Assignment.DataNasabah.Repository.NasabahRepository;
 import Assignment.DataNasabah.Service.NasabahService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ import java.util.Objects;
 public class NasabahImplementation implements NasabahService {
     private final NasabahRepository nasabahRepository;
 
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional
     @Override
     public NasabahResponse createNasabah(NasabahRequest request) {
         NasabahEntity nasabah = NasabahEntity.builder()
@@ -32,52 +31,44 @@ public class NasabahImplementation implements NasabahService {
                 .alamat(request.getAlamat())
                 .tempatLahir(request.getTempatLahir())
                 .tanggalLahir(request.getTanggalLahir())
-                .nomerKtp(String.valueOf(request.getNomerKtp()))
+                .nomerKtp(request.getNomerKtp())
                 .nomerHanphone(request.getNomerHanphone())
                 .build();
         nasabahRepository.save(nasabah);
-        return new NasabahResponse();
+        return nasabahResponse(nasabah);
     }
 
     @Override
-    public NasabahResponse getNasabahById(NasabahRequest request) {
-        NasabahEntity nasabah = nasabahRepository.findById(String.valueOf(request)).get();
-        return new NasabahResponse();
-
-    }
-
-    @Override
-    public NasabahResponse findByNomerKtp(NasabahRequest nomerKtp) {
-        NasabahResponse nasabah = nasabahRepository.findByNomerKtp(String.valueOf(nomerKtp));
-        if (nasabah == null) {
-            NasabahEntity nasabah1 = nasabahRepository.findById(String.valueOf(nomerKtp)).get();
-            return null;
-        }
-        return nasabah;
-    }
-
-    @Override
-    public List<NasabahEntity> getAllNasabah() {
-        List<NasabahEntity> nasabahResponses = nasabahRepository.findAll();
-        List<NasabahRequest> nasabahRequests = new ArrayList<>();
-        for (NasabahEntity nasabah : nasabahResponses) {
-            List<NasabahEntity> allNasabah = getAllNasabah();
-            nasabahRequests.add((NasabahRequest) allNasabah);
-        }
+    public List<NasabahResponse> getAllNasabah() {
+        List<NasabahEntity> nasabahEntities = nasabahRepository.findAll();
+        List<NasabahResponse> nasabahResponses = nasabahEntities.stream()
+                .map(nasabah -> nasabahResponse(nasabah)).collect(Collectors.toList());
         return nasabahResponses;
     }
+
+    @Override
+    public NasabahEntity getNasabahById(NasabahRequest request) {
+        return nasabahRepository.findById(String.valueOf(request)).get();
+    }
+
+    @Override
+    public NasabahResponse findByNomerKtp(NasabahRequest request) {
+        return nasabahRepository.findByNomerKtp(String.valueOf(request));
+    }
+
     @Override
     public NasabahResponse updateNasabah(NasabahRequest request) {
         NasabahEntity nasabah = nasabahRepository.findById(request.getId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "nasabah not found"));
         if (Objects.nonNull(nasabah)) {
+            nasabah.getId();
             nasabah.setNamaLengkap(request.getNamaLengkap());
             nasabah.setAlamat(request.getAlamat());
             nasabah.setTempatLahir(request.getTempatLahir());
             nasabah.setTanggalLahir(request.getTanggalLahir());
             nasabah.setNomerKtp(String.valueOf(request.getNomerKtp()));
             nasabah.setNomerHanphone(request.getNomerHanphone());
-            nasabahRepository.save(nasabah);
+            nasabahRepository.saveAndFlush(nasabah);
 
             return nasabahResponse(nasabah);
         }
@@ -92,6 +83,7 @@ public class NasabahImplementation implements NasabahService {
 
         private static NasabahResponse nasabahResponse (NasabahEntity nasabah){
             return NasabahResponse.builder()
+                    .id(nasabah.getId())
                     .namaLengkap(nasabah.getNamaLengkap())
                     .alamat(nasabah.getAlamat())
                     .tempatLahir(nasabah.getTempatLahir())
