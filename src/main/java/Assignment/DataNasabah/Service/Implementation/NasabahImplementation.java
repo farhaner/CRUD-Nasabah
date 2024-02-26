@@ -66,8 +66,7 @@ public class NasabahImplementation implements NasabahService {
             nasabah.setAlamat(request.getAlamat());
             nasabah.setTempatLahir(request.getTempatLahir());
             nasabah.setTanggalLahir(request.getTanggalLahir());
-            nasabah.setNomerKtp(String.valueOf(request.getNomerKtp()));
-//            nasabah.setno
+            nasabah.setNomerKtp(request.getNomerKtp());
             nasabah.setNomerHanphone(request.getNomerHanphone());
             nasabahRepository.saveAndFlush(nasabah);
 
