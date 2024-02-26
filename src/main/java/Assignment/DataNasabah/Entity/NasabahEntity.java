@@ -2,6 +2,7 @@ package Assignment.DataNasabah.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Setter
@@ -14,7 +15,9 @@ import lombok.*;
 public class NasabahEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "uuid-hibernate-generator")
+    @GenericGenerator(name = "uuid-hibernate-generator", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id")
     private String id;
 
@@ -30,7 +33,7 @@ public class NasabahEntity {
     @Column(name = "tanggal_lahir")
     private String tanggalLahir;
 
-    @Column(name = "no_ktp")
+    @Column(name = "no_ktp", unique = true)
     private String nomerKtp;
 
     @Column(name = "no_hp")
