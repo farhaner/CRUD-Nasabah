@@ -1,5 +1,6 @@
 package Assignment.DataNasabah.Response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 @Setter
@@ -7,6 +8,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder(toBuilder = true)
 public class NasabahResponse {
 

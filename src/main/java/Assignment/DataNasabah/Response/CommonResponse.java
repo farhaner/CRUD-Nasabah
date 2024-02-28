@@ -2,6 +2,8 @@ package Assignment.DataNasabah.Response;
 
 import lombok.*;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -10,5 +12,5 @@ import lombok.*;
 public class CommonResponse<T> {
         private Integer statusCode;
         private String message;
-        private T data;
+        private Object data;
 }

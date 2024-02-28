@@ -1,5 +1,6 @@
 package Assignment.DataNasabah.Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@Table(name = "nasabah")
+@Table(name = "customer")
 public class NasabahEntity {
 
     @Id
